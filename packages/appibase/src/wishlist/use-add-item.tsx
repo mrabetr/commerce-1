@@ -1,20 +1,13 @@
-import { useHook, useMutationHook } from '../utils/use-hook'
-import { mutationFetcher } from '../utils/default-fetcher'
-import type { MutationHook } from '../utils/types'
-import type { AddItemHook } from '../types/wishlist'
-import type { Provider } from '..'
+import { useCallback } from 'react'
 
-export type UseAddItem<
-  H extends MutationHook<AddItemHook<any>> = MutationHook<AddItemHook>
-> = ReturnType<H['useHook']>
+export function emptyHook() {
+  const useEmptyHook = async (options = {}) => {
+    return useCallback(async function () {
+      return Promise.resolve()
+    }, [])
+  }
 
-export const fetcher = mutationFetcher
-
-const fn = (provider: Provider) => provider.wishlist?.useAddItem!
-
-const useAddItem: UseAddItem = (...args) => {
-  const hook = useHook(fn)
-  return useMutationHook({ fetcher, ...hook })(...args)
+  return useEmptyHook
 }
 
-export default useAddItem
+export default emptyHook

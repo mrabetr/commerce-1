@@ -1,9 +1,9 @@
 {
   "features": {
-    "cart": false,
-    "search": false,
-    "wishlist": false,
-    "customerAuth": false,
-    "customCheckout": false
+    "cart": true,
+    "search": true,
+    "wishlist": true,
+    "customerAuth": true,
+    "customCheckout": true
   }
 }

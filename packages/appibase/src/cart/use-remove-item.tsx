@@ -1,20 +1,20 @@
-import { useHook, useMutationHook } from '../utils/use-hook'
-import { mutationFetcher } from '../utils/default-fetcher'
-import type { HookFetcherFn, MutationHook } from '../utils/types'
-import type { RemoveItemHook } from '../types/cart'
-import type { Provider } from '..'
+import { MutationHook } from '@vercel/commerce/utils/types'
+import useRemoveItem, {
+  UseRemoveItem,
+} from '@vercel/commerce/cart/use-remove-item'
 
-export type UseRemoveItem<
-  H extends MutationHook<RemoveItemHook<any>> = MutationHook<RemoveItemHook>
-> = ReturnType<H['useHook']>
+export default useRemoveItem as UseRemoveItem<typeof handler>
 
-export const fetcher: HookFetcherFn<RemoveItemHook> = mutationFetcher
-
-const fn = (provider: Provider) => provider.cart?.useRemoveItem!
-
-const useRemoveItem: UseRemoveItem = (input) => {
-  const hook = useHook(fn)
-  return useMutationHook({ fetcher, ...hook })(input)
+export const handler: MutationHook<any> = {
+  fetchOptions: {
+    query: '',
+  },
+  async fetcher({ input, options, fetch }) {},
+  useHook:
+    ({ fetch }) =>
+    () => {
+      return async function removeItem(input) {
+        return {}
+      }
+    },
 }
-
-export default useRemoveItem

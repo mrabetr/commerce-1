@@ -1,20 +1,17 @@
-import { useHook, useMutationHook } from '../utils/use-hook'
-import { mutationFetcher } from '../utils/default-fetcher'
-import type { HookFetcherFn, MutationHook } from '../utils/types'
-import type { AddItemHook } from '../types/cart'
-import type { Provider } from '..'
+import useAddItem, { UseAddItem } from '@vercel/commerce/cart/use-add-item'
+import { MutationHook } from '@vercel/commerce/utils/types'
 
-export type UseAddItem<
-  H extends MutationHook<AddItemHook<any>> = MutationHook<AddItemHook>
-> = ReturnType<H['useHook']>
-
-export const fetcher: HookFetcherFn<AddItemHook> = mutationFetcher
-
-const fn = (provider: Provider) => provider.cart?.useAddItem!
-
-const useAddItem: UseAddItem = (...args) => {
-  const hook = useHook(fn)
-  return useMutationHook({ fetcher, ...hook })(...args)
+export default useAddItem as UseAddItem<typeof handler>
+export const handler: MutationHook<any> = {
+  fetchOptions: {
+    query: '',
+  },
+  async fetcher({ input, options, fetch }) {},
+  useHook:
+    ({ fetch }) =>
+    () => {
+      return async function addItem() {
+        return {}
+      }
+    },
 }
-
-export default useAddItem

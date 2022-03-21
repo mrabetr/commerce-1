@@ -1,6 +1,6 @@
 {
   "name": "appibase",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "release": "taskr release",
@@ -17,7 +17,7 @@
       "./dist/*.js",
       "./dist/*/index.js"
     ],
-    "./config": "./dist/config.cjs"
+    "./next.config": "./dist/next.config.cjs"
   },
   "typesVersions": {
     "*": {
@@ -25,8 +25,8 @@
         "src/*",
         "src/*/index"
       ],
-      "config": [
-        "dist/config.d.cts"
+      "next.config": [
+        "dist/next.config.d.cts"
       ]
     }
   },
@@ -40,18 +40,15 @@
           "dist/*.d.ts",
           "dist/*/index.d.ts"
         ],
-        "config": [
-          "dist/config.d.cts"
+        "next.config": [
+          "dist/next.config.d.cts"
         ]
       }
     }
   },
   "dependencies": {
-    "@vercel/fetch": "^6.1.1",
-    "deepmerge": "^4.2.2",
-    "import-cwd": "^3.0.0",
-    "js-cookie": "^3.0.1",
-    "swr": "^1.2.0"
+    "@vercel/commerce": "^0.0.1",
+    "@vercel/fetch": "^6.1.1"
   },
   "peerDependencies": {
     "next": "^12",
@@ -62,7 +59,6 @@
     "@taskr/clear": "^1.1.0",
     "@taskr/esnext": "^1.1.0",
     "@taskr/watch": "^1.1.0",
-    "@types/js-cookie": "^3.0.1",
     "@types/node": "^17.0.8",
     "@types/react": "^17.0.38",
     "lint-staged": "^12.1.7",

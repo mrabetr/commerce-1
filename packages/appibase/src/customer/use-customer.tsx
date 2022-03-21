@@ -1,20 +1,17 @@
-import { useHook, useSWRHook } from '../utils/use-hook'
-import { SWRFetcher } from '../utils/default-fetcher'
-import type { CustomerHook } from '../types/customer'
-import type { HookFetcherFn, SWRHook } from '../utils/types'
-import type { Provider } from '..'
+import { SWRHook } from '@vercel/commerce/utils/types'
+import useCustomer, {
+  UseCustomer,
+} from '@vercel/commerce/customer/use-customer'
 
-export type UseCustomer<
-  H extends SWRHook<CustomerHook<any>> = SWRHook<CustomerHook>
-> = ReturnType<H['useHook']>
-
-export const fetcher: HookFetcherFn<CustomerHook> = SWRFetcher
-
-const fn = (provider: Provider) => provider.customer?.useCustomer!
-
-const useCustomer: UseCustomer = (input) => {
-  const hook = useHook(fn)
-  return useSWRHook({ fetcher, ...hook })(input)
+export default useCustomer as UseCustomer<typeof handler>
+export const handler: SWRHook<any> = {
+  fetchOptions: {
+    query: '',
+  },
+  async fetcher({ input, options, fetch }) {},
+  useHook: () => () => {
+    return async function addItem() {
+      return {}
+    }
+  },
 }
-
-export default useCustomer

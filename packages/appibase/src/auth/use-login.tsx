@@ -1,20 +1,16 @@
-import { useHook, useMutationHook } from '../utils/use-hook'
-import { mutationFetcher } from '../utils/default-fetcher'
-import type { MutationHook, HookFetcherFn } from '../utils/types'
-import type { LoginHook } from '../types/login'
-import type { Provider } from '..'
+import { MutationHook } from '@vercel/commerce/utils/types'
+import useLogin, { UseLogin } from '@vercel/commerce/auth/use-login'
 
-export type UseLogin<
-  H extends MutationHook<LoginHook<any>> = MutationHook<LoginHook>
-> = ReturnType<H['useHook']>
+export default useLogin as UseLogin<typeof handler>
 
-export const fetcher: HookFetcherFn<LoginHook> = mutationFetcher
-
-const fn = (provider: Provider) => provider.auth?.useLogin!
-
-const useLogin: UseLogin = (...args) => {
-  const hook = useHook(fn)
-  return useMutationHook({ fetcher, ...hook })(...args)
+export const handler: MutationHook<any> = {
+  fetchOptions: {
+    query: '',
+  },
+  async fetcher() {
+    return null
+  },
+  useHook: () => () => {
+    return async function () {}
+  },
 }
-
-export default useLogin

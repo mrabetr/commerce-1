@@ -1,20 +1,43 @@
-import { useHook, useSWRHook } from '../utils/use-hook'
-import { SWRFetcher } from '../utils/default-fetcher'
-import type { HookFetcherFn, SWRHook } from '../utils/types'
-import type { GetWishlistHook } from '../types/wishlist'
-import type { Provider } from '..'
+import { HookFetcher } from '@vercel/commerce/utils/types'
+import type { Product } from '@vercel/commerce/types/product'
 
-export type UseWishlist<
-  H extends SWRHook<GetWishlistHook<any>> = SWRHook<GetWishlistHook>
-> = ReturnType<H['useHook']>
+const defaultOpts = {}
 
-export const fetcher: HookFetcherFn<GetWishlistHook> = SWRFetcher
-
-const fn = (provider: Provider) => provider.wishlist?.useWishlist!
-
-const useWishlist: UseWishlist = (...args) => {
-  const hook = useHook(fn)
-  return useSWRHook({ fetcher, ...hook })(...args)
+export type Wishlist = {
+  items: [
+    {
+      product_id: number
+      variant_id: number
+      id: number
+      product: Product
+    }
+  ]
 }
 
-export default useWishlist
+export interface UseWishlistOptions {
+  includeProducts?: boolean
+}
+
+export interface UseWishlistInput extends UseWishlistOptions {
+  customerId?: number
+}
+
+export const fetcher: HookFetcher<Wishlist | null, UseWishlistInput> = () => {
+  return null
+}
+
+export function extendHook(
+  customFetcher: typeof fetcher,
+  // swrOptions?: SwrOptions<Wishlist | null, UseWishlistInput>
+  swrOptions?: any
+) {
+  const useWishlist = ({ includeProducts }: UseWishlistOptions = {}) => {
+    return { data: null }
+  }
+
+  useWishlist.extend = extendHook
+
+  return useWishlist
+}
+
+export default extendHook(fetcher)
